@@ -1,9 +1,12 @@
 import {_init} from "./init.js";
 import {keys} from './generate.js'; 
 import {circle} from './circle.js';
-import { rectangle } from "./rectangle.js";
-var _wedol ={canvas:_init()};
+import {rectangle} from "./rectangle.js";
+import {path} from './path.js';
+import {animation} from './animation.js';
+var _wedol ={canvas:_init(animation)};
 _wedol = keys(_wedol);
 _wedol = circle(_wedol);
 _wedol = rectangle(_wedol);
-export var wedol = _wedol;  
+_wedol = path(_wedol);
+export var wedol = _wedol;

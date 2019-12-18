@@ -9,34 +9,37 @@
         function randomRange(min,max){
             return Math.random() * (max-min)+min;
         }
-
+        
         window.onload=function(){
-            var canvas = wedol.canvas('cvs');
-            var start =null;
-            var rect1 =wedol.rect(canvas,randomRange(40,70),randomRange(40,70),12,12);
-            var rect2 =wedol.rect(canvas,randomRange(40,70),randomRange(40,70),12,12);
+            // create data for line plot
+            var data=[];
+            var px=50;
+            var py=50;
+            for(var i=0;i<100;i++){
+                px +=randomRange(-3,3);
+                py +=randomRange(-3,3);
+                data.push({px,py});
+            }
             
-            function frame(timestamp) {
-                if (start) start = timestamp;
-                var progress = timestamp - start;
-   
-                rect1.x+=randomRange(-2,2);
-                rect1.y+=randomRange(-2,2);
-                
-                rect2.x+=randomRange(-2,2);
-                rect2.y+=randomRange(-2,2);
+            //set canvas id
+            var canvas = wedol.canvas('cvs');
 
+            //create shape object or path object
+            var rect1 =wedol.rect(canvas,randomRange(40,70),randomRange(40,70),12,12,'rgb(255,165,0)',true);
+            var rect2 =wedol.rect(canvas,randomRange(40,70),randomRange(40,70),12,12);
+            var path1 =wedol.path(canvas,"M50 50","rgb(0,233,140)");
+            
+            //set animation
+            canvas.animation(function(){
+                rect1.x+=randomRange(-1,1);
+                rect1.y+=randomRange(-1,1);
+                
+                var p = data.pop();
+                if(data.length!=0)
+                    path1.svgPath+=" L"+p.px+" "+p.py;
                 canvas.clearRect();
                 canvas.draw();
-                
-                if (progress < 3000) {
-                    window.requestAnimationFrame(frame);
-                }
-            }
-
-            window.requestAnimationFrame(frame);
-           
-        console.log(canvas);
+            },5000);
         }
     </script>
 </head>
